@@ -5,18 +5,23 @@
       <input 
         type="text"
         :name="formFields.email"
-        @input="handleInputs.call(this, $event, formFields.email)" />
+        @input="handleInputs.call(this, $event, formFields.email)"
+      >
     </label>
-    <br />
+    <br>
     <label for="password">
       Password:
       <input
         type="password"
         :name="formFields.password"
-        @input="handleInputs.call(this, $event, formFields.password)" />
+        @input="handleInputs.call(this, $event, formFields.password)"
+      >
+        
     </label>
     <p>
-      <button type="submit">Login</button>
+      <button type="submit">
+        Login
+      </button>
     </p>
   </form>
 </template>

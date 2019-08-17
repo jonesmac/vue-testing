@@ -1,3 +1,8 @@
+// Seem to be needed for babel to transform files for jest
+// see - https://github.com/vuejs/vue-cli/issues/1879#issuecomment-413869211
+process.env.VUE_CLI_BABEL_TARGET_NODE = true;
+process.env.VUE_CLI_BABEL_TRANSPILE_MODULES = true;
+
 module.exports = {
   moduleFileExtensions: [
     'js',
@@ -11,7 +16,7 @@ module.exports = {
     '^.+\\.jsx?$': 'babel-jest'
   },
   transformIgnorePatterns: [
-    '/node_modules/'
+    "node_modules/(?!(babel-jest|jest-vue-preprocessor)/)"
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'

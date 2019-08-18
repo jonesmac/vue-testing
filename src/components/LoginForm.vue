@@ -4,6 +4,17 @@
     novalidate
     @submit="handleSubmit"
   >
+    <p v-if="errors.length">
+      <ul class="errors">
+        <li 
+          v-for="(error, index) in errors"
+          :key="index"
+          class="error-message"
+        >
+          {{ error }}
+        </li>
+      </ul>
+    </p>
     <LoginFormControls @input-event="handleInputs" />
     <p>
       <button type="submit">
@@ -24,7 +35,12 @@ export default {
   },
   data () {
     return {
-      payload: {}
+      payload: {},
+      errors: [],
+      errorMessages: {
+        emailRequired: 'Email is required',
+        passwordRequired: 'Password is required'
+      }
     }
   },
   methods: {
@@ -33,7 +49,16 @@ export default {
     },
     handleSubmit(event) {
       event.preventDefault();
-      // TODO - validate and send
+      this.errors = [];
+      if (!this.payload.email) {
+        this.errors.push(this.errorMessages.emailRequired);
+      }
+      if (!this.payload.password) {
+        this.errors.push(this.errorMessages.passwordRequired);
+      }
+      if (this.errors.length === 0) {
+        // TODO - submit the form
+      }
     }
   }
 }

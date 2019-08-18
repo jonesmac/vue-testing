@@ -1,23 +1,9 @@
 <template>
-  <form class="login-form">
-    <label for="email">
-      Email:
-      <input 
-        type="text"
-        :name="formFields.email"
-        @input="handleInputs.call(this, $event, formFields.email)"
-      >
-    </label>
-    <br>
-    <label for="password">
-      Password:
-      <input
-        type="password"
-        :name="formFields.password"
-        @input="handleInputs.call(this, $event, formFields.password)"
-      >
-        
-    </label>
+  <form
+    class="login-form"
+    novalidate
+  >
+    <LoginFormControls @input-event="handleInputs" />
     <p>
       <button type="submit">
         Login
@@ -28,20 +14,21 @@
 
 <script>
 
+import LoginFormControls from '@/components/LoginFormControls.vue';
+
 export default {
   name: 'LoginForm',
+  components: {
+    LoginFormControls
+  },
   data () {
     return {
-      formFields: {
-        email: 'email',
-        password: 'password'
-      },
       payload: {}
     }
   },
   methods: {
-    handleInputs (event, inputName) {
-      this.payload[inputName] = event.target.value;
+    handleInputs (event) {
+      this.payload[event.control] = event.value;
     }
   }
 }

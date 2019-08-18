@@ -2,6 +2,7 @@
   <form
     class="login-form"
     novalidate
+    @submit="handleSubmit"
   >
     <LoginFormControls @input-event="handleInputs" />
     <p>
@@ -29,6 +30,10 @@ export default {
   methods: {
     handleInputs (event) {
       this.payload[event.control] = event.value;
+    },
+    handleSubmit(event) {
+      event.preventDefault();
+      // TODO - validate and send
     }
   }
 }

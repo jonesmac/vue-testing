@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import LoginForm from '@/views/LoginForm.vue'
+import LoginForm from '@/components/LoginForm.vue'
 
 describe('LoginForm.vue', () => {
   it('updates payload on new events', () => {

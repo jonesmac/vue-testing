@@ -15,7 +15,7 @@ describe('LoginForm.vue', () => {
 
     expect(wrapper.find('.errors').exists()).toBe(false);
     form.trigger('submit');
-    expect(wrapper.find('.errors').exists()).toBe(true);
+    expect(wrapper.find('.errors').isVisible()).toBe(true);
     
     const errors = wrapper.findAll('.error-message');
     const firstError = errors.at(0);

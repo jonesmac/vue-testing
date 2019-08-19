@@ -3,18 +3,20 @@
     <label for="email">
       Email:
       <input 
+        v-model="email"
         type="text"
-        :name="formFields.email"
-        @input="handleInputs.call(this, $event, formFields.email)"
+        name="email"
+        @input="handleInputs()"
       >
     </label>
     <br>
     <label for="password">
       Password:
       <input
+        v-model="password"
         type="password"
-        :name="formFields.password"
-        @input="handleInputs.call(this, $event, formFields.password)"
+        name="password"
+        @input="handleInputs()"
       >
     </label>
   </div>
@@ -23,21 +25,25 @@
 <script>
   export default {
     name: 'LoginFormControls',
+    props: {
+      value: {
+        type: Object,
+        default: () => {}
+      }
+    },
     data () {
       return {
-        formFields: {
-          email: 'email',
-          password: 'password'
-        }
+        email: '',
+        password: ''
       }
     },
     methods: {
-      handleInputs (event, inputName) {
+      handleInputs() {
         this.$emit(
-          'input-event',
+          'input',
           {
-            control: inputName,
-            value: event.target.value
+            email: this.email,
+            password: this.password
           }
         );
       }

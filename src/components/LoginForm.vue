@@ -15,7 +15,9 @@
         </li>
       </ul>
     </p>
-    <LoginFormControls @input-event="handleInputs" />
+    <LoginFormControls
+      v-model="payload"
+    />
     <p>
       <button type="submit">
         Login
@@ -44,9 +46,6 @@ export default {
     }
   },
   methods: {
-    handleInputs (event) {
-      this.payload[event.control] = event.value;
-    },
     handleSubmit(event) {
       event.preventDefault();
       this.errors = [];
@@ -58,6 +57,7 @@ export default {
       }
       if (this.errors.length === 0) {
         // TODO - submit the form
+        console.log(this.payload);
       }
     }
   }

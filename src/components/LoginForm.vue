@@ -4,17 +4,9 @@
     novalidate
     @submit="handleSubmit"
   >
-    <p v-if="errors.length">
-      <ul class="errors">
-        <li 
-          v-for="(error, index) in errors"
-          :key="index"
-          class="error-message"
-        >
-          {{ error }}
-        </li>
-      </ul>
-    </p>
+    <LoginFormErrors
+      :errors="errors"
+    />
     <LoginFormControls
       v-model="payload"
     />
@@ -27,13 +19,16 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 import LoginFormControls from '@/components/LoginFormControls.vue';
+import LoginFormErrors from '@/components/LoginFormErrors.vue';
+import { API } from '@/constants/api';
 
 export default {
   name: 'LoginForm',
   components: {
-    LoginFormControls
+    LoginFormControls,
+    LoginFormErrors
   },
   data () {
     return {
@@ -42,13 +37,16 @@ export default {
       errorMessages: {
         emailRequired: 'Email is required',
         passwordRequired: 'Password is required'
-      }
+      },
+      resetErrors: () => this.errors = [],
+      API,
+      axios
     }
   },
   methods: {
-    handleSubmit(event) {
+    async handleSubmit(event) {
       event.preventDefault();
-      this.errors = [];
+      this.resetErrors();
       if (!this.payload.email) {
         this.errors.push(this.errorMessages.emailRequired);
       }
@@ -56,8 +54,13 @@ export default {
         this.errors.push(this.errorMessages.passwordRequired);
       }
       if (this.errors.length === 0) {
-        // TODO - submit the form
-        console.log(this.payload);
+        try {
+          const loginResponse = await this.axios.post(API.USERS.CREATE, this.payload);
+          console.log(loginResponse.data);
+        } catch (e) {
+          this.resetErrors();
+          this.errors.push('Login Request Failed');
+        }
       }
     }
   }

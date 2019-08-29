@@ -55,8 +55,11 @@ export default {
       }
       if (this.errors.length === 0) {
         try {
-          const loginResponse = await this.axios.post(API.USERS.CREATE, this.payload);
-          console.log(loginResponse.data);
+          const loginResponse = await this.axios.post(
+            this.API.USERS.CREATE,
+            this.payload
+          );
+          // TODO show success message in UI
         } catch (e) {
           this.resetErrors();
           this.errors.push('Login Request Failed');

@@ -2,20 +2,48 @@ import { shallowMount } from '@vue/test-utils'
 import LoginForm from '@/components/LoginForm.vue'
 
 describe('LoginForm.vue', () => {
-  it('validates the form on submit and shows error messages', () => {    
+  it('validates the form on submit and set error messages', () => {    
     const wrapper = shallowMount(LoginForm, {});
     const form = wrapper.find('form');
+    expect(wrapper.vm.$data.errors).toEqual([]);
 
-    expect(wrapper.find('.errors').exists()).toBe(false);
+    wrapper.setData({ payload: { email: '', password: '' }});
     form.trigger('submit');
-    expect(wrapper.find('.errors').isVisible()).toBe(true);
-    
-    const errors = wrapper.findAll('.error-message');
-    const firstError = errors.at(0);
-    const secondError = errors.at(1);
+    expect(wrapper.vm.$data.errors).toEqual([
+      wrapper.vm.$data.errorMessages.emailRequired,
+      wrapper.vm.$data.errorMessages.passwordRequired
+    ]);
 
-    expect(errors.length).toBe(2);
-    expect(firstError.text()).toEqual(wrapper.vm.errorMessages.emailRequired);
-    expect(secondError.text()).toEqual(wrapper.vm.errorMessages.passwordRequired);
+    wrapper.setData({
+      payload: {
+        email: 'test@gmail.com',
+        password: 'test'
+      }
+    });
+    form.trigger('submit');
+    expect(wrapper.vm.$data.errors).toEqual([]);
   });
+
+  it('calls the api when submit is called with valid values', () => {
+    const wrapper = shallowMount(LoginForm, {});
+    const form = wrapper.find('form');
+    const fakeAxios = {
+      post: () => {}
+    }
+    const spy = jest.spyOn(fakeAxios, 'post');
+    wrapper.setData({ axios: fakeAxios });
+
+    wrapper.setData({
+      payload: {
+        email: 'test@gmail.com',
+        password: 'test'
+      }
+    });
+
+    form.trigger('submit');
+    expect(spy).toHaveBeenCalledWith(
+      wrapper.vm.$data.API.USERS.CREATE,
+      wrapper.vm.$data.payload
+    );
+  })
 });

@@ -1,44 +1,52 @@
 <template>
   <form
-    class="login-form"
+    class="pure-form pure-form-stacked pure-u-1"
     novalidate
     @submit="handleSubmit"
   >
-    <LoginFormErrors
-      :errors="errors"
+    <LoginFormMessages
+      :messages="messages"
+      :css-class="cssClass"
     />
     <LoginFormControls
       v-model="payload"
     />
-    <p>
-      <button type="submit">
+    <div class="pure-controls">
+      <button
+        type="submit"
+        class="pure-button pure-button-primary"
+      >
         Login
       </button>
-    </p>
+    </div>
   </form>
 </template>
 
 <script>
 import axios from 'axios';
 import LoginFormControls from '@/components/LoginFormControls.vue';
-import LoginFormErrors from '@/components/LoginFormErrors.vue';
+import LoginFormMessages from '@/components/LoginFormMessages.vue';
 import { API } from '@/constants/api';
 
 export default {
   name: 'LoginForm',
   components: {
     LoginFormControls,
-    LoginFormErrors
+    LoginFormMessages
   },
   data () {
     return {
       payload: {},
-      errors: [],
+      messages: [],
       errorMessages: {
         emailRequired: 'Email is required',
         passwordRequired: 'Password is required'
       },
-      resetErrors: () => this.errors = [],
+      resetMessages: () => {
+        this.messages = [];
+        this.cssClass = '';
+      },
+      cssClass: '',
       API,
       axios
     }
@@ -46,23 +54,27 @@ export default {
   methods: {
     async handleSubmit(event) {
       event.preventDefault();
-      this.resetErrors();
+      this.resetMessages();
       if (!this.payload.email) {
-        this.errors.push(this.errorMessages.emailRequired);
+        this.cssClass = 'pure-alert-error';
+        this.messages.push(this.errorMessages.emailRequired);
       }
       if (!this.payload.password) {
-        this.errors.push(this.errorMessages.passwordRequired);
+        this.cssClass = 'pure-alert-error';
+        this.messages.push(this.errorMessages.passwordRequired);
       }
-      if (this.errors.length === 0) {
+      if (this.messages.length === 0) {
+        this.resetMessages();
         try {
-          const loginResponse = await this.axios.post(
+          await this.axios.post(
             this.API.USERS.CREATE,
             this.payload
           );
-          // TODO show success message in UI
+          this.cssClass = 'pure-alert-success';
+          this.messages.push('Logged In Successfully!')
         } catch (e) {
-          this.resetErrors();
-          this.errors.push('Login Request Failed');
+          this.cssClass = 'pure-alert-error';
+          this.messages.push('Login Request Failed');
         }
       }
     }
@@ -72,7 +84,7 @@ export default {
 </script>
 
 <style scoped>
-.login-form {
-  padding: 45px;
-}
+  form {
+    margin: 45px 0;
+  }
 </style>

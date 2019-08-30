@@ -1,25 +1,29 @@
 <template>
-  <div>
-    <label for="email">
-      Email:
+  <fieldset>
+    <legend>Login</legend>
+    <div class="pure-control-group">
       <input 
         v-model="email"
+        required
+        class="pure-input-1-2"
+        placeholder="Email"
         type="text"
         name="email"
         @input="handleInputs()"
       >
-    </label>
-    <br>
-    <label for="password">
-      Password:
+    </div>
+    <div class="pure-control-group">
       <input
         v-model="password"
+        required
+        placeholder="Password"
+        class="pure-input-1-2"
         type="password"
         name="password"
         @input="handleInputs()"
       >
-    </label>
-  </div>
+    </div>
+  </fieldset>
 </template>
 
 <script>

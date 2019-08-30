@@ -2,14 +2,14 @@ import { shallowMount } from '@vue/test-utils'
 import LoginForm from '@/components/LoginForm.vue'
 
 describe('LoginForm.vue', () => {
-  it('validates the form on submit and set error messages', () => {    
+  it('validates the form on submit and set messages', () => {    
     const wrapper = shallowMount(LoginForm, {});
     const form = wrapper.find('form');
-    expect(wrapper.vm.$data.errors).toEqual([]);
+    expect(wrapper.vm.$data.messages).toEqual([]);
 
     wrapper.setData({ payload: { email: '', password: '' }});
     form.trigger('submit');
-    expect(wrapper.vm.$data.errors).toEqual([
+    expect(wrapper.vm.$data.messages).toEqual([
       wrapper.vm.$data.errorMessages.emailRequired,
       wrapper.vm.$data.errorMessages.passwordRequired
     ]);
@@ -21,7 +21,7 @@ describe('LoginForm.vue', () => {
       }
     });
     form.trigger('submit');
-    expect(wrapper.vm.$data.errors).toEqual([]);
+    expect(wrapper.vm.$data.messages).toEqual([]);
   });
 
   it('calls the api when submit is called with valid values', () => {

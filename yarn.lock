@@ -7728,6 +7728,16 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
+pure-css@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/pure-css/-/pure-css-1.0.4.tgz#c86c26f2b3761dfd8af08e60708ec233f2597d75"
+  integrity sha1-yGwm8rN2Hf2K8I5gcI7CM/JZfXU=
+
+pure-extras@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/pure-extras/-/pure-extras-1.0.0.tgz#37e3cc3590cba850981454cda5db28e27a63871a"
+  integrity sha1-N+PMNZDLqFCYFFTNpdso4npjhxo=
+
 q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"

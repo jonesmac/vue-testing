@@ -27,6 +27,7 @@ import axios from 'axios';
 import LoginFormControls from '@/components/LoginFormControls.vue';
 import LoginFormMessages from '@/components/LoginFormMessages.vue';
 import { API } from '@/constants/api';
+import { Routes } from '@/constants/routes';
 
 export default {
   name: 'LoginForm',
@@ -48,7 +49,8 @@ export default {
       },
       cssClass: '',
       API,
-      axios
+      axios,
+      Routes
     }
   },
   methods: {
@@ -72,6 +74,9 @@ export default {
           );
           this.cssClass = 'pure-alert-success';
           this.messages.push('Logged In Successfully!')
+          setTimeout(() => {
+            this.$router.push(this.Routes.LOCATIONS)
+          }, 2000)
         } catch (e) {
           this.cssClass = 'pure-alert-error';
           this.messages.push('Login Request Failed');

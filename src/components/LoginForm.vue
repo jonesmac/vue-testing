@@ -8,10 +8,7 @@
       :messages="messages"
       :css-class="cssClass"
     />
-    <p 
-      class="loading"
-      :v-if="isFetching === true"
-    >
+    <p v-if="isFetching">
       {{ isFetching }}
       Loading...
     </p>
@@ -58,10 +55,7 @@ export default {
       accountStoreSubscription: null
     }
   },
-  computed: {
-    isFetching: () => false
-  },
-  // computed: mapState('account', ['isFetching']),
+  computed: mapState('account', ['isFetching']),
   mounted() {
     this.accountStoreSubscription = this.$store
       .subscribe(({ type }, { account }) => {

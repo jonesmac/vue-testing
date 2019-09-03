@@ -8,6 +8,13 @@
       :messages="messages"
       :css-class="cssClass"
     />
+    <p 
+      class="loading"
+      :v-if="isFetching === true"
+    >
+      {{ isFetching }}
+      Loading...
+    </p>
     <LoginFormControls
       v-model="payload"
     />
@@ -23,10 +30,9 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapState, mapActions } from 'vuex'
 import LoginFormControls from '@/components/LoginFormControls.vue';
 import LoginFormMessages from '@/components/LoginFormMessages.vue';
-import { API } from '@/constants/api';
 import { Routes } from '@/constants/routes';
 
 export default {
@@ -48,12 +54,42 @@ export default {
         this.cssClass = '';
       },
       cssClass: '',
-      API,
-      axios,
-      Routes
+      Routes,
+      accountStoreSubscription: null
     }
   },
+  computed: mapState('account', ['isFetching']),
+  mounted() {
+    this.accountStoreSubscription = this.$store
+      .subscribe(({ type }, { account }) => {
+      switch(type) {
+        case 'account/setCurrentUser': {
+          this.cssClass = 'pure-alert-success';
+          this.messages.push('Logged In Successfully!')
+          setTimeout(() => {
+            this.$router.push(this.Routes.LOCATIONS)
+          }, 2000)
+          break;
+        }
+        case 'account/setErrors': {
+          if (account.error) {
+            this.cssClass = 'pure-alert-error';
+            this.messages.push('Login Request Failed');
+          }
+          break;
+        }
+        default: return;
+      }
+    });
+  },
+  destroyed() {
+    // cleanup to prevent duplicate subscriptions to the store
+    this.accountStoreSubscription();
+  },
   methods: {
+    ...mapActions('account', {
+      login: 'loginRequest'
+    }),
     async handleSubmit(event) {
       event.preventDefault();
       this.resetMessages();
@@ -67,25 +103,11 @@ export default {
       }
       if (this.messages.length === 0) {
         this.resetMessages();
-        try {
-          await this.axios.post(
-            this.API.USERS.CREATE,
-            this.payload
-          );
-          this.cssClass = 'pure-alert-success';
-          this.messages.push('Logged In Successfully!')
-          setTimeout(() => {
-            this.$router.push(this.Routes.LOCATIONS)
-          }, 2000)
-        } catch (e) {
-          this.cssClass = 'pure-alert-error';
-          this.messages.push('Login Request Failed');
-        }
+        this.login(this.payload);
       }
-    }
+    },
   }
 }
-
 </script>
 
 <style scoped>

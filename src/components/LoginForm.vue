@@ -58,7 +58,10 @@ export default {
       accountStoreSubscription: null
     }
   },
-  computed: mapState('account', ['isFetching']),
+  computed: {
+    isFetching: () => false
+  },
+  // computed: mapState('account', ['isFetching']),
   mounted() {
     this.accountStoreSubscription = this.$store
       .subscribe(({ type }, { account }) => {

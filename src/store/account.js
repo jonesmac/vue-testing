@@ -15,17 +15,16 @@ export const account = {
     cssClass: ''
   },
   getters: {
-    currentUser(state) { return state.currentUser; },
-    isFetching(state) { return state.isFetching; },
-    messages(state) { return state.messages; },
-    cssClass(state) { return state.cssClass; }
+    usersName(state) { 
+      return `${state.currentUser.firstName} ${state.currentUser.lastName}`
+    }
   },
   actions: {
     async loginRequest ({ commit }, {payload, router}) { 
       commit('setFetching', true);
       try {
         const currentUser = await login(payload);
-        commit('setCurrentUser', currentUser.data);
+        commit('setCurrentUser', currentUser.data.user);
         commit('setCSSclass', 'pure-alert-success');
         commit('addMessage', 'Logged In Successfully!');
         // Wait a bit to allow for real world feel
@@ -49,7 +48,10 @@ export const account = {
         commit('setCSSclass', 'pure-alert-error');
         commit('addMessage', state.errorMessages.passwordRequired);
       }
-    } // -> dispatch('account/validateLoginFields')
+    }, // -> dispatch('account/validateLoginFields')
+    setCurrentUser({ commit }, currentUser) {
+      commit('setCurrentUser', currentUser);
+    }
   },
   mutations: {
     setFetching(state, fetchStatus) {
@@ -59,7 +61,8 @@ export const account = {
       state.error = errors;
     }, // -> commit('account/setErrors')
     setCurrentUser(state, currentUser) {
-      state.currentUser = Object.freeze(currentUser);
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      state.currentUser = currentUser;
     }, // -> commit('account/setCurrentUser')
     setCSSclass(state, cssClass) {
       state.cssClass = cssClass;

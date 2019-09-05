@@ -12,3 +12,7 @@ export const getLocations = async () => {
 export const saveLocation = async (payload) => {
   return axios.post(API.LOCATIONS.CREATE, payload);
 }
+
+export const deleteLocation = async (id) => {
+  return axios.delete(`${API.LOCATIONS.DELETE}/${id}`);
+}

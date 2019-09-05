@@ -1,5 +1,6 @@
 import { getLocations } from '@/api/requests';
 import { newLocationForm } from './newLocationForm'
+import { removeLocation } from './removeLocation'
 
 export const locations = {
   namespaced: true,
@@ -52,6 +53,7 @@ export const locations = {
     },
   },
   modules: {
-    newLocationForm
+    newLocationForm,
+    removeLocation
   }
 }

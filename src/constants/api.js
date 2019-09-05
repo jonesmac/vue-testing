@@ -4,6 +4,7 @@ export const API = {
   },
   LOCATIONS: {
     GET_ALL: `${process.env.VUE_APP_API_BASE}/locations`,
-    CREATE: `${process.env.VUE_APP_API_BASE}/locations/new`
+    CREATE: `${process.env.VUE_APP_API_BASE}/locations/new`,
+    DELETE: `${process.env.VUE_APP_API_BASE}/locations/delete`
   }
 }

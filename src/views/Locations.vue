@@ -1,7 +1,13 @@
 <template>
   <div class="locations">
     <h1>Welcome {{ usersName }}</h1>
-    <LocationsDashboard />
+    <p
+      v-if="usersName === ''"
+      class="pure-alert-error"
+    >
+      User not found.  Please <a :href="'/login'">Login</a>
+    </p>
+    <LocationsDashboard :locations="myLocations" />
   </div>
 </template>
 
@@ -14,6 +20,7 @@
     components: { LocationsDashboard },
     computed: {
       ...mapState('account', ['currentUser']),
+      ...mapState('locations', ['myLocations']),
       usersName() {
         if (this.currentUser) {
           // Use user in state
@@ -27,14 +34,18 @@
             this.setCurrentUser(savedUser);
             return `${savedUser.firstName} ${savedUser.lastName}`;
           } else {
-            return 'No User Found'
+            return ''
           }
         }
       }
     },
+    mounted() {
+      this.getLocations();
+    },
     methods: {
-      ...mapActions('account', {
-        setCurrentUser: 'setCurrentUser'
+      ...mapActions({
+        setCurrentUser: 'account/setCurrentUser',
+        getLocations: 'locations/getLocations'
       })
     }
   }

@@ -13,7 +13,7 @@
 
 <script>
   import LocationsDashboard from '@/components/LocationsDashboard';
-  import { mapActions, mapState, mapGetters } from 'vuex';
+  import { mapActions, mapState } from 'vuex';
 
   export default {
     name: 'Locations',
@@ -22,7 +22,7 @@
       ...mapState('account', ['currentUser']),
       ...mapState('locations', ['myLocations']),
       usersName() {
-        if (this.currentUser) {
+        if (this.currentUser.id) {
           // Use user in state
           return `${this.currentUser.firstName} ${this.currentUser.lastName}`;
         } else {

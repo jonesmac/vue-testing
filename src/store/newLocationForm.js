@@ -20,7 +20,9 @@ export const newLocationForm = {
         const newLocation = await saveLocation(payload);
         commit('newLocation', newLocation);
         commit('setCSSclass', 'pure-alert-success');
-        dispatch('getLocations')
+        setTimeout(() => commit('addMessage', 'Location Saved'), 1000);
+        setTimeout(() => commit('resetMessages'), 5000);
+        dispatch('getLocations');
       } catch (error) {
         commit('setErrors', error);
         commit('setCSSclass', 'pure-alert-error');

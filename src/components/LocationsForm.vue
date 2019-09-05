@@ -9,7 +9,6 @@
       :css-class="cssClass"
     />
     <p v-if="isFetching">
-      {{ isFetching }}
       Loading...
     </p>
     <LocationsControls v-model="payload" />

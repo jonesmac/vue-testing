@@ -30,7 +30,6 @@
 import { mapState, mapActions } from 'vuex'
 import LoginFormControls from '@/components/LoginFormControls.vue';
 import LoginFormMessages from '@/components/LoginFormMessages.vue';
-import { Routes } from '@/constants/routes';
 
 export default {
   name: 'LoginForm',
@@ -41,66 +40,22 @@ export default {
   data () {
     return {
       payload: {},
-      messages: [],
-      errorMessages: {
-        emailRequired: 'Email is required',
-        passwordRequired: 'Password is required'
-      },
-      resetMessages: () => {
-        this.messages = [];
-        this.cssClass = '';
-      },
-      cssClass: '',
-      Routes,
-      accountStoreSubscription: null
     }
   },
-  computed: mapState('account', ['isFetching']),
-  mounted() {
-    this.accountStoreSubscription = this.$store
-      .subscribe(({ type }, { account }) => {
-      switch(type) {
-        case 'account/setCurrentUser': {
-          this.cssClass = 'pure-alert-success';
-          this.messages.push('Logged In Successfully!')
-          setTimeout(() => {
-            this.$router.push(this.Routes.LOCATIONS)
-          }, 2000)
-          break;
-        }
-        case 'account/setErrors': {
-          if (account.error) {
-            this.cssClass = 'pure-alert-error';
-            this.messages.push('Login Request Failed');
-          }
-          break;
-        }
-        default: return;
-      }
-    });
-  },
-  destroyed() {
-    // cleanup to prevent duplicate subscriptions to the store
-    this.accountStoreSubscription();
-  },
+  computed: mapState('account', ['isFetching', 'messages', 'cssClass']),
   methods: {
     ...mapActions('account', {
-      login: 'loginRequest'
+      login: 'loginRequest',
+      validateLoginFields: 'validateLoginFields'
     }),
     async handleSubmit(event) {
       event.preventDefault();
-      this.resetMessages();
-      if (!this.payload.email) {
-        this.cssClass = 'pure-alert-error';
-        this.messages.push(this.errorMessages.emailRequired);
-      }
-      if (!this.payload.password) {
-        this.cssClass = 'pure-alert-error';
-        this.messages.push(this.errorMessages.passwordRequired);
-      }
+      this.validateLoginFields(this.payload);
       if (this.messages.length === 0) {
-        this.resetMessages();
-        this.login(this.payload);
+        this.login({
+          payload: this.payload,
+          router: this.$router
+        });
       }
     },
   }

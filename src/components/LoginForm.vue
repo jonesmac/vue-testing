@@ -4,7 +4,7 @@
     novalidate
     @submit="handleSubmit"
   >
-    <LoginFormMessages
+    <BaseMessages
       :messages="messages"
       :css-class="cssClass"
     />
@@ -27,15 +27,15 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import LoginFormControls from '@/components/LoginFormControls.vue';
-import LoginFormMessages from '@/components/LoginFormMessages.vue';
+import { mapState, mapActions } from 'vuex';
+import LoginFormControls from './LoginFormControls.vue';
+import BaseMessages from './BaseMessages.vue';
 
 export default {
   name: 'LoginForm',
   components: {
     LoginFormControls,
-    LoginFormMessages
+    BaseMessages
   },
   data () {
     return {

@@ -1,18 +1,22 @@
 <template>
   <div>
-    <h2>Locations</h2>
+    <h2>Saved Locations</h2>
     <LocationListing
       :locations="locations"
     />
+    <LocationForm v-model="newLocation" />
   </div>
 </template>
 
 <script>
   import LocationListing from './LocationListing';
+  import LocationForm from './LocationsForm';
+
   export default {
     name: 'LocationsDashboard',
     components: {
-      LocationListing
+      LocationListing,
+      LocationForm
     },
     props: {
       currentUser: {
@@ -22,6 +26,11 @@
       locations: {
         type: Array,
         default: () => []
+      }
+    },
+    data() {
+      return {
+        newLocation: {}
       }
     }
   }

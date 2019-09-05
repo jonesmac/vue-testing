@@ -13,7 +13,7 @@
 
 <script>
   import LocationsDashboard from '@/components/LocationsDashboard';
-  import { mapActions, mapState } from 'vuex';
+  import { mapActions, mapState, mapGetters } from 'vuex';
 
   export default {
     name: 'Locations',

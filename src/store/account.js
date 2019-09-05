@@ -1,19 +1,17 @@
 import { login } from '@/api/requests';
 import { Routes } from '@/constants/routes';
+import { baseFormStateObject } from './util/baseFormState';
 
 export const account = {
   namespaced: true,
-  state: {
-    currentUser: null,
-    isFetching: false,
-    error: null,
-    messages: [],
-    errorMessages: {
+  state: baseFormStateObject({
+    mainKey: 'currentUser',
+    mainValue: {},
+    errorMessages: { 
       emailRequired: 'Email is required',
       passwordRequired: 'Password is required'
-    },
-    cssClass: ''
-  },
+    }
+  }),
   getters: {
     usersName(state) { 
       return `${state.currentUser.firstName} ${state.currentUser.lastName}`
@@ -37,7 +35,7 @@ export const account = {
         commit('addMessage', 'Login Request Failed');
       }
       commit('setFetching', false);
-    }, // -> dispatch('account/login')
+    },
     validateLoginFields({ commit, state }, payload) {
       commit('resetMessages');
       if (!payload.email) {
@@ -48,7 +46,7 @@ export const account = {
         commit('setCSSclass', 'pure-alert-error');
         commit('addMessage', state.errorMessages.passwordRequired);
       }
-    }, // -> dispatch('account/validateLoginFields')
+    },
     setCurrentUser({ commit }, currentUser) {
       commit('setCurrentUser', currentUser);
     }
@@ -56,14 +54,14 @@ export const account = {
   mutations: {
     setFetching(state, fetchStatus) {
       state.isFetching = fetchStatus;
-    }, // -> commit('account/isFetching')
+    },
     setErrors(state, errors) {
       state.error = errors;
-    }, // -> commit('account/setErrors')
+    },
     setCurrentUser(state, currentUser) {
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       state.currentUser = currentUser;
-    }, // -> commit('account/setCurrentUser')
+    },
     setCSSclass(state, cssClass) {
       state.cssClass = cssClass;
     },

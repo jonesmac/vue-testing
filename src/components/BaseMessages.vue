@@ -14,7 +14,7 @@
 
 <script>
   export default {
-    name: 'LoginFormMessages',
+    name: 'BaseMessages',
     props: {
       messages: {
         type: Array,

@@ -1,4 +1,5 @@
 import { getLocations } from '@/api/requests';
+import { newLocationForm } from './newLocationForm'
 
 export const locations = {
   namespaced: true,
@@ -25,7 +26,7 @@ export const locations = {
       } catch (error) {
         commit('setErrors', error);
         commit('setCSSclass', 'pure-alert-error');
-        commit('addMessage', 'Login Request Failed');
+        commit('addMessage', 'Locations Request Failed');
       }
       commit('setFetching', false);
     }
@@ -33,13 +34,13 @@ export const locations = {
   mutations: {
     setFetching(state, fetchStatus) {
       state.isFetching = fetchStatus;
-    }, // -> commit('account/isFetching')
+    },
     setErrors(state, errors) {
       state.error = errors;
-    }, // -> commit('account/setErrors')
+    },
     setLocations(state, locations) {
       state.myLocations = locations;
-    }, // -> commit('account/setLocations')
+    },
     setCSSclass(state, cssClass) {
       state.cssClass = cssClass;
     },
@@ -48,7 +49,9 @@ export const locations = {
     },
     addMessage(state, message) {
       state.messages.push(message);
-    }
+    },
   },
-
+  modules: {
+    newLocationForm
+  }
 }

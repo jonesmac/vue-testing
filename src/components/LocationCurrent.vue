@@ -1,20 +1,37 @@
 <template>
   <div class="wrapper">
-    <div class="temp">
+    <div
+      v-if="weather.main.temp"
+      class="temp"
+    >
       {{ weather.main.temp }}
     </div>
-    <div class="description">
+    <div
+      v-if="weather.weather[0].description"
+      class="description"
+    >
       {{ weather.weather[0].description }}
     </div>
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   export default {
     name: 'LocationCurrent',
-    computed: {
-      ...mapState('currentLocation', ['weather'])
+    props: {
+      weather: {
+        type: Object,
+        default: () => ({
+          main: {
+            temp: '',
+          },
+          weather: [
+            {
+              description: ''
+            }
+          ]
+        })
+      }
     }
   }
 </script>
@@ -25,17 +42,19 @@
     text-align: center;
     font-weight: bold;
     text-transform: uppercase;
+    padding-top: 20px;
   }
   .description {
     text-align: center;
     text-transform: uppercase;
     letter-spacing: .5px;
+    padding-bottom: 30px;
+    margin-bottom: 50px;
   }
   .wrapper {
     background: #163B6D;
     color: white;
-    padding: 20px 0 30px;
-    margin-bottom: 50px;
+    
   }
 
 </style>

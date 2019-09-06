@@ -10,21 +10,7 @@ export const currentLocation = {
       getWeatherFailed: 'Failed to fetch weather'
     }
   },
-  getters: {
-    weatherParsed: ( state ) => {
-      if (typeof state.main === 'object') {
-        return {
-          temp: state.weather.main.temp,
-          description: state.weather.description
-        }
-      } else {
-        return {
-          temp: '',
-          description: ''
-        }
-      }
-    }
-  },
+  getters: {},
   actions: {
     async viewLocation ({ commit, state }, zipcode){
       commit('setFetching', true);

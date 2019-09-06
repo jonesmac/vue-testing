@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2>Current Weather</h2>
+    <LocationCurrent />
     <h2>Saved Locations</h2>
     <LocationListing
       :locations="locations"
@@ -11,12 +13,14 @@
 <script>
   import LocationListing from './LocationListing';
   import LocationForm from './LocationsForm';
+  import LocationCurrent from './LocationCurrent';
 
   export default {
     name: 'LocationsDashboard',
     components: {
       LocationListing,
-      LocationForm
+      LocationForm,
+      LocationCurrent
     },
     props: {
       currentUser: {

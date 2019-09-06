@@ -9,13 +9,19 @@
         {{ location.label }}
       </span>
       <span class="zipcode">
-        {{ location.zipcode }}
+        ({{ location.zipcode }})
       </span>
       <a 
         class="delete"
         @click="deleteLocation(location.id)"
       >
         Delete
+      </a>
+      <a 
+        class="view"
+        @click="viewLocation(location.zipcode)"
+      >
+        View
       </a>
     </li>
   </ul>
@@ -32,18 +38,27 @@
       }
     },
     methods:{
-      ...mapActions('locations', ['deleteLocation'])
+      ...mapActions('currentLocation', ['viewLocation'])
     }
   }
 </script>
 
 <style scoped>
-  .location .label {
-    margin-right: 14px;
+  .location .label, .view {
+    margin-right: 5px;
+  }
+  .zipcode {
+    font-size: 10px;
   }
   .delete {
     cursor: pointer;
     color: red;
+    float: right;
+    text-decoration: underline;
+  }
+  .view {
+    cursor: pointer;
+    color: blue;
     float: right;
     text-decoration: underline;
   }

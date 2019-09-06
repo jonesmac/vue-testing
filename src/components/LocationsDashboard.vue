@@ -1,7 +1,20 @@
 <template>
   <div>
-    <h2>Current Weather</h2>
-    <LocationCurrent />
+    <h2>
+      Current Weather
+      <span
+        v-if="currentLocation.label"
+      >
+        - {{ currentLocation.label}}
+      </span>
+    </h2>
+    <div v-if="isFetching">
+      Fetching Weather...
+    </div>
+    <LocationCurrent
+      v-if="weather.main"
+      :weather="weather"
+    />
     <h2>Saved Locations</h2>
     <LocationListing
       :locations="locations"
@@ -14,6 +27,7 @@
   import LocationListing from './LocationListing';
   import LocationForm from './LocationsForm';
   import LocationCurrent from './LocationCurrent';
+  import { mapState } from 'vuex';
 
   export default {
     name: 'LocationsDashboard',
@@ -36,6 +50,9 @@
       return {
         newLocation: {}
       }
+    },
+    computed: {
+      ...mapState('currentLocation', ['weather', 'isFetching', 'currentLocation'])
     }
   }
 </script>

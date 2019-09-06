@@ -19,7 +19,7 @@
       </a>
       <a 
         class="view"
-        @click="viewLocation(location.zipcode)"
+        @click="viewLocation(location)"
       >
         View Weather
       </a>
@@ -38,7 +38,8 @@
       }
     },
     methods:{
-      ...mapActions('currentLocation', ['viewLocation'])
+      ...mapActions('currentLocation', ['viewLocation']),
+      ...mapActions('locations', ['deleteLocation'])
     }
   }
 </script>

@@ -4,10 +4,13 @@
     novalidate
     @submit="handleSubmit"
   >
-    <LoginFormMessages
+    <BaseMessages
       :messages="messages"
       :css-class="cssClass"
     />
+    <p v-if="isFetching">
+      Loading...
+    </p>
     <LoginFormControls
       v-model="payload"
     />
@@ -23,64 +26,39 @@
 </template>
 
 <script>
-import axios from 'axios';
-import LoginFormControls from '@/components/LoginFormControls.vue';
-import LoginFormMessages from '@/components/LoginFormMessages.vue';
-import { API } from '@/constants/api';
+import { mapState, mapActions } from 'vuex';
+import LoginFormControls from './LoginFormControls.vue';
+import BaseMessages from './BaseMessages.vue';
 
 export default {
   name: 'LoginForm',
   components: {
     LoginFormControls,
-    LoginFormMessages
+    BaseMessages
   },
   data () {
     return {
       payload: {},
-      messages: [],
-      errorMessages: {
-        emailRequired: 'Email is required',
-        passwordRequired: 'Password is required'
-      },
-      resetMessages: () => {
-        this.messages = [];
-        this.cssClass = '';
-      },
-      cssClass: '',
-      API,
-      axios
     }
   },
+  computed: mapState('account', ['isFetching', 'messages', 'cssClass']),
   methods: {
+    ...mapActions('account', {
+      login: 'loginRequest',
+      validateLoginFields: 'validateLoginFields'
+    }),
     async handleSubmit(event) {
       event.preventDefault();
-      this.resetMessages();
-      if (!this.payload.email) {
-        this.cssClass = 'pure-alert-error';
-        this.messages.push(this.errorMessages.emailRequired);
-      }
-      if (!this.payload.password) {
-        this.cssClass = 'pure-alert-error';
-        this.messages.push(this.errorMessages.passwordRequired);
-      }
+      this.validateLoginFields(this.payload);
       if (this.messages.length === 0) {
-        this.resetMessages();
-        try {
-          await this.axios.post(
-            this.API.USERS.CREATE,
-            this.payload
-          );
-          this.cssClass = 'pure-alert-success';
-          this.messages.push('Logged In Successfully!')
-        } catch (e) {
-          this.cssClass = 'pure-alert-error';
-          this.messages.push('Login Request Failed');
-        }
+        this.login({
+          payload: this.payload,
+          router: this.$router
+        });
       }
-    }
+    },
   }
 }
-
 </script>
 
 <style scoped>

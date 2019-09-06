@@ -4,6 +4,10 @@ export const currentLocation = {
   namespaced: true,
   state: {
     weather: {},
+    currentLocation: {
+      label: '',
+      zipcode: ''
+    },
     isFetching: false,
     error: null,
     errorMessages: {
@@ -12,9 +16,11 @@ export const currentLocation = {
   },
   getters: {},
   actions: {
-    async viewLocation ({ commit, state }, zipcode){
+    async viewLocation ({ commit, state }, { zipcode, label }){
       commit('setFetching', true);
       commit('resetMessages');
+      commit('setCurrentLocation', { zipcode, label });
+      commit('setWeather', {});
       try {
         const weather = await getWeather(zipcode);
         commit('setWeather', weather.data);
@@ -46,5 +52,8 @@ export const currentLocation = {
     addMessage(state, message) {
       state.messages.push(message);
     },
+    setCurrentLocation(state, location) {
+      state.currentLocation = location;
+    }
   }
 }

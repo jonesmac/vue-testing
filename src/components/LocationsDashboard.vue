@@ -1,6 +1,13 @@
 <template>
   <div>
-    <h2>Current Weather</h2>
+    <h2>
+      Current Weather
+      <span
+        v-if="currentLocation.label"
+      >
+        - {{ currentLocation.label}}
+      </span>
+    </h2>
     <div v-if="isFetching">
       Fetching Weather...
     </div>
@@ -45,7 +52,7 @@
       }
     },
     computed: {
-      ...mapState('currentLocation', ['weather', 'isFetching'])
+      ...mapState('currentLocation', ['weather', 'isFetching', 'currentLocation'])
     }
   }
 </script>

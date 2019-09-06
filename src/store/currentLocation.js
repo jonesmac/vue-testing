@@ -11,10 +11,17 @@ export const currentLocation = {
     }
   },
   getters: {
-    weatherParsed({ state }) {
-      return {
-        temp: state.main.temp,
-        description: state.weather.description
+    weatherParsed: ( state ) => {
+      if (typeof state.main === 'object') {
+        return {
+          temp: state.weather.main.temp,
+          description: state.weather.description
+        }
+      } else {
+        return {
+          temp: '',
+          description: ''
+        }
       }
     }
   },
@@ -24,7 +31,7 @@ export const currentLocation = {
       commit('resetMessages');
       try {
         const weather = await getWeather(zipcode);
-        commit('setLocations', weather.data);
+        commit('setWeather', weather.data);
         commit('setCSSclass', 'pure-alert-success');
       } catch (error) {
         commit('setErrors', error);

@@ -1,19 +1,21 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="temp">
-      {{ weatherParsed.temp }}
+      {{ weather.main.temp }}
     </div>
     <div class="description">
-      {{ weatherParsed.description }}
+      {{ weather.weather[0].description }}
     </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapState } from 'vuex';
   export default {
     name: 'LocationCurrent',
-    computed: mapGetters('currentLocation', ['weatherParsed'])
+    computed: {
+      ...mapState('currentLocation', ['weather'])
+    }
   }
 </script>
 
@@ -26,5 +28,14 @@
   }
   .description {
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .5px;
   }
+  .wrapper {
+    background: #163B6D;
+    color: white;
+    padding: 20px 0 30px;
+    margin-bottom: 50px;
+  }
+
 </style>

@@ -19,6 +19,9 @@ export const deleteLocation = async (id) => {
 
 export const getWeather = async (zipcode) => {
   return axios.get(API.WEATHER.GET, {
+    // since weather api comes back with * for AccessControlOrigin
+    // header, we need to disble session handling
+    withCredentials: false,
     params: {
       zip: `${zipcode},us`,
       appid: process.env.VUE_APP_OPEN_WEATHER_API_KEY,

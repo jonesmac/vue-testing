@@ -21,7 +21,7 @@
         class="view"
         @click="viewLocation(location.zipcode)"
       >
-        View
+        View Weather
       </a>
     </li>
   </ul>
@@ -44,6 +44,10 @@
 </script>
 
 <style scoped>
+  ul {
+    display: block;
+    margin-bottom: 50px;
+  }
   .location .label, .view {
     margin-right: 5px;
   }

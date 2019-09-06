@@ -5,7 +5,9 @@
       v-if="usersName === ''"
       class="pure-alert-error"
     >
-      User not found.  Please <a :href="'/login'">Login</a>
+      User not found.  Please <router-link to="/login">
+        Login
+      </router-link>
     </p>
     <LocationsDashboard :locations="myLocations" />
   </div>
@@ -52,5 +54,7 @@
 </script>
 
 <style scoped>
-
+  h1 {
+    text-align: center;
+  }
 </style>

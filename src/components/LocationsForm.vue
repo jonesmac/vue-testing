@@ -17,7 +17,7 @@
         type="submit"
         class="pure-button pure-button-primary"
       >
-        Add Location
+        Add Location (US only)
       </button>
     </div>
   </form>

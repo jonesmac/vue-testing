@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <nav>
       <router-link to="/login">
         Login
       </router-link> | 
       <router-link to="/about">
         About
       </router-link>
-    </div>
+    </nav>
     <router-view />
   </div>
 </template>
@@ -22,5 +22,12 @@
   max-width: 768px;
   min-width: 480px;
   margin: 45px auto;
+}
+nav {
+  text-align: center;
+}
+
+nav a:visited, nav a {
+  color: #333;
 }
 </style>
